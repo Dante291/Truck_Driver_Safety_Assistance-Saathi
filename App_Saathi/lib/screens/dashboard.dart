@@ -13,35 +13,34 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(70),
+        preferredSize: const Size.fromHeight(60),
         child: AppBar(
-          backgroundColor: const Color.fromARGB(255, 23, 33, 123),
-          centerTitle: true,
-          title: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const Text(
-                "Dashboard",
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
-              ),
-              Image.asset(
-                'lib/images/truck_icon.png',
-                width: MediaQuery.of(context).size.width * .2,
-              ),
-              IconButton(
+          actions: [
+            Padding(
+              padding: EdgeInsets.only(right: 6),
+              child: IconButton(
                   onPressed: () {},
                   icon: const Icon(
                     Icons.search,
                     size: 35,
                   )),
+            )
+          ],
+          centerTitle: true,
+          backgroundColor: const Color.fromARGB(255, 23, 33, 123),
+          title: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const Text(
+                "Dashboard",
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
+              ),
+              Image.asset(
+                'lib/images/truck_icon.png',
+                width: MediaQuery.of(context).size.width * 0.2,
+              ),
             ],
           ),
-          leading: IconButton(
-              onPressed: () {},
-              icon: const Icon(
-                Icons.arrow_back,
-                size: 35,
-              )),
         ),
       ),
       body: const DriverList(),

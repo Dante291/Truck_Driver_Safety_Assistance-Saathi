@@ -1,5 +1,3 @@
-import 'dart:js';
-
 import 'package:flutter/material.dart';
 import 'package:saathi/components/myButton.dart';
 import 'package:saathi/components/myText.dart';
@@ -11,10 +9,6 @@ class LoginPage extends StatelessWidget {
 
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
-  void loginUser() {
-    Navigator.of(context as BuildContext)
-        .push(MaterialPageRoute(builder: (context) => HomeScreen()));
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,18 +42,17 @@ class LoginPage extends StatelessWidget {
             hintText: 'Password',
             obscureText: true,
           ),
-          Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 25.0, vertical: 12.0),
+          const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 25.0, vertical: 12.0),
               child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
                 Text('Forgot Password?'),
               ])),
           const SizedBox(height: 25),
           myButton(
-            onTap: () => Navigator.push(
-                context, MaterialPageRoute(builder: (context) => HomeScreen())),
+            onTap: () => Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const HomeScreen())),
           ),
-          Padding(
+          const Padding(
             padding: EdgeInsets.symmetric(vertical: 15),
             child: Text(
               'or continue with',

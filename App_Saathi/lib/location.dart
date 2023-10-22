@@ -25,7 +25,7 @@ class _locationState extends State<location> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: PreferredSize(
-            preferredSize: const Size.fromHeight(70),
+            preferredSize: const Size.fromHeight(60),
             child: AppBar(
               backgroundColor: const Color.fromARGB(255, 43, 23, 123),
               centerTitle: true,
@@ -55,8 +55,6 @@ class _locationState extends State<location> {
 //   if (origin != null) origin,
 //   if(destination != null) destination
 //  },
-
-
         ));
   }
 }
