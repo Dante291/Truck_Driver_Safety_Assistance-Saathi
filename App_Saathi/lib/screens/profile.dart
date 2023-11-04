@@ -1,135 +1,105 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
-class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({super.key});
-
-  @override
-  State<ProfileScreen> createState() => _ProfileScreenState();
-}
-
-class _ProfileScreenState extends State<ProfileScreen> {
+class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(70),
-        child: AppBar(
-          backgroundColor: const Color.fromARGB(255, 23, 33, 123),
-          centerTitle: true,
-          title: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const Text(
-                "Profile",
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
-              ),
-            ],
-          ),
-          leading: IconButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              icon: const Icon(
-                Icons.arrow_back,
-                size: 30,
-              )),
+      appBar: AppBar(
+        backgroundColor: Color.fromARGB(255, 53, 148, 130),
+        title: Text(
+          "Profile",
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
+        ),
+        centerTitle: true,
+      ),
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: ProfileDetails(),
         ),
       ),
-      body: DriverDetails(),
     );
   }
 }
 
-class DriverDetails extends StatefulWidget {
-  const DriverDetails({super.key});
-
+class ProfileDetails extends StatefulWidget {
   @override
-  State<DriverDetails> createState() => _DriverDetailsState();
+  State<ProfileDetails> createState() => _ProfileDetailsState();
 }
 
-class _DriverDetailsState extends State<DriverDetails> {
+class _ProfileDetailsState extends State<ProfileDetails> {
+  final ref = FirebaseDatabase.instance.ref().child('UserID');
+
+  Map<String, dynamic>? vehicleData;
+
+  @override
+  void initState() {
+    super.initState();
+    ref.child('User1').child('Details').onValue.listen((event) {
+      if (event.snapshot.value != null) {
+        setState(() {
+          vehicleData = Map<String, dynamic>.from(
+              event.snapshot.value as Map<dynamic, dynamic>);
+        });
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        const CircleAvatar(
+          radius: 70,
+          backgroundImage: NetworkImage(
+              'https://cdn.imgbin.com/10/20/3/imgbin-car-driving-computer-icons-truck-driver-car-cgicc0xxLBdT4RP4mu93N6XEe.jpg'),
+        ),
+        const SizedBox(height: 28),
+        DetailRow(label: 'OwnerName', value: vehicleData?['OwnerName']),
+        DetailRow(label: 'OwnerNumber', value: vehicleData?['OwnerNumber']),
+        DetailRow(label: 'VehicleNumber', value: vehicleData?['VehicleNumber']),
+        DetailRow(label: 'OwnerEmail', value: vehicleData?['OwnerEmail']),
+        DetailRow(label: 'OwnerDOB', value: vehicleData?['OwnerDOB']),
+        DetailRow(
+            label: 'DateOfPurchase', value: vehicleData?['DateOfPurchase']),
+        DetailRow(label: 'EngineNumber', value: vehicleData?['EngineNumber']),
+        DetailRow(label: 'ChasisNumber', value: vehicleData?['ChasisNumber']),
+        DetailRow(
+            label: 'InsuranceValidUpto',
+            value: vehicleData?['InsuranceValidUpto']),
+        DetailRow(
+            label: 'DrivingLicenseID', value: vehicleData?['DrivingLicenseID']),
+        DetailRow(label: 'Comments', value: vehicleData?['Comments']),
+      ],
+    );
+  }
+}
+
+class DetailRow extends StatelessWidget {
+  final String label;
+  final dynamic value;
+
+  const DetailRow({required this.label, required this.value});
+
+  @override
+  Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(10, 20, 10, 0),
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Card(
-            elevation: 10,
-            color: Colors.transparent,
-            child: Container(
-              decoration: BoxDecoration(
-                  color: Color.fromARGB(255, 176, 193, 251),
-                  borderRadius: BorderRadius.circular(20)),
-              height: size.height * .35,
-              width: size.width * .5,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      textpair('Name', 'Rajesh'),
-                      textpair('Age', '35'),
-                      textpair('Contact No.', ''),
-                      Text(
-                        ' 8745641256',
-                        style: const TextStyle(
-                          fontSize: 17,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                      textpair('Experience', '4 Yr'),
-                      textpair('Vehicle Details', ''),
-                      textpair('Insurance', 'May 2024'),
-                      textpair('Truck No.', ''),
-                      Text(
-                        ' HR65A5594',
-                        style: const TextStyle(
-                          fontSize: 17,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                    ]),
-              ),
-            ),
+          Text(
+            '$label: ',
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
-          Container(
-            width: size.width * .4,
-            height: size.height * .15,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              image: DecorationImage(
-                  image: NetworkImage(
-                      'https://cdn.imgbin.com/10/20/3/imgbin-car-driving-computer-icons-truck-driver-car-cgicc0xxLBdT4RP4mu93N6XEe.jpg'),
-                  fit: BoxFit.fill),
-            ),
+          Text(
+            '${value}',
+            style: TextStyle(fontSize: 18),
           ),
         ],
       ),
-    );
-  }
-
-  Widget textpair(String text1, String text2) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          "$text1 : ",
-          style: const TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
-          textAlign: TextAlign.center,
-        ),
-        Text(
-          text2,
-          style: const TextStyle(
-            fontWeight: FontWeight.w500,
-            fontSize: 16,
-          ),
-          textAlign: TextAlign.center,
-        ),
-      ],
     );
   }
 }

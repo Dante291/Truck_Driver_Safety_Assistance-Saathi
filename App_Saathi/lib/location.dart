@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:saathi/screens/home_screen.dart';
 
 class location extends StatefulWidget {
   @override
@@ -27,24 +26,17 @@ class _locationState extends State<location> {
         appBar: PreferredSize(
             preferredSize: const Size.fromHeight(60),
             child: AppBar(
-              backgroundColor: const Color.fromARGB(255, 43, 23, 123),
+              backgroundColor: Color.fromARGB(255, 53, 148, 130),
               centerTitle: true,
-              title:
-                  Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
-                const Text(
-                  "Location",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
-                ),
-              ]),
-              leading: IconButton(
-                  onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => HomeScreen()));
-                  },
-                  icon: const Icon(
-                    Icons.arrow_back,
-                    size: 30,
-                  )),
+              title: const Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Location",
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
+                    ),
+                  ]),
             )),
         body: GoogleMap(
           myLocationButtonEnabled: false,
